@@ -1,0 +1,198 @@
+
+import random
+import arcade
+
+# --- Constants ---
+SPRITE_SCALING_PLAYER = 0.5
+SPRITE_SCALING_COIN = .25
+COIN_COUNT = 50
+MOVEMENT_SPEED = 5
+
+SCREEN_WIDTH = 1280
+
+SCREEN_HEIGHT = 720
+
+WINDOW_TITLE = "Sprite Collect Coins Example"
+
+class Person(arcade.Sprite):
+    def __init__(self, filename, scale):
+        super().__init__(filename, scale=scale)
+        self.change_x = 0
+
+        self.change_y = 0
+
+    def update(self, delta_time: float = 1 / 60):
+
+        if self.left <= 0:
+            self.center_x = SCREEN_WIDTH - 10
+
+        elif self.right >= SCREEN_WIDTH:
+            self.center_x = 10
+
+        elif self.bottom <=0:
+            self.center_y = SCREEN_HEIGHT - 10
+
+        elif self.bottom >= SCREEN_HEIGHT:
+            self.center_y = 30
+
+
+        self.center_x += self.change_x
+        self.center_y += self.change_y
+        super().update()
+
+class GameView(arcade.View):
+
+
+    def __init__(self):
+
+        """ Initializer """
+
+        # Call the parent class initializer
+
+        super().__init__()
+
+
+        # Variables that will hold sprite lists
+
+        self.player_list = None
+
+        self.coin_list = None
+
+
+        # Create a variable to hold the player sprite
+
+        self.player_sprite = None
+
+
+        # Variables to hold the score and the Text object displaying it
+
+        self.score = 0
+
+        self.score_display = None
+
+
+        # Hide the mouse cursor while it's over the window
+
+        self.window.set_mouse_visible(False)
+
+
+        self.background_color = arcade.color.AMAZON
+    def setup(self):
+        """ Set up the game and initialize the variables. """
+
+        # Sprite lists
+        self.player_list = arcade.SpriteList()
+        self.coin_list = arcade.SpriteList()
+
+        # Score
+        self.score = 0
+
+        # Set up the player
+        # Character image from kenney.nl
+        img = ":resources:images/animated_characters/female_person/femalePerson_idle.png"
+        self.player_sprite = Person(":resources:images/animated_characters/female_person/femalePerson_idle.png", SPRITE_SCALING_PLAYER)
+        self.player_sprite.center_x = 50
+        self.player_sprite.center_y = 50
+        self.player_list.append(self.player_sprite)
+
+        # Create the coins
+        for i in range(COIN_COUNT):
+
+            # Create the coin instance
+            # Coin image from kenney.nl
+            coin = arcade.Sprite(":resources:images/items/coinGold.png",
+                                 SPRITE_SCALING_COIN)
+
+            # Position the coin
+            coin.center_x = random.randrange(SCREEN_WIDTH)
+            coin.center_y = random.randrange(SCREEN_HEIGHT)
+
+            # Add the coin to the lists
+            self.coin_list.append(coin)
+
+    def on_draw(self):
+        """ Draw everything """
+        # arcade.start_rehttps://api.arcade.academy/en/latest/tutorials/bundling_with_pyinstaller/index.htmlnder()
+        self.clear()
+        ## REmove Render and add clear
+        # arcade.start_render()
+        self.coin_list.draw()
+        self.player_list.draw()
+
+        # Put the text on the screen.
+        output = f"Score: {self.score}"
+        arcade.draw_text(output, 10, 20, arcade.color.WHITE, 14)
+
+    # def on_mouse_motion(self, x, y, dx, dy):
+    #     """ Handle Mouse Motion """
+    #
+    #     # Move the center of the player sprite to match the mouse x, y
+    #     # self.player_sprite.center_x = x
+    #     # self.player_sprite.center_y = y
+    #     self.player_sprite.position = x, y
+
+    def on_key_press(self, key, modifiers):
+        """
+        Called whenever a key is pressed.
+        """
+        if key == arcade.key.UP:
+            self.player_sprite.change_y = MOVEMENT_SPEED
+        elif key == arcade.key.DOWN:
+            self.player_sprite.change_y = -MOVEMENT_SPEED
+        elif key == arcade.key.LEFT:
+            self.player_sprite.change_x = -MOVEMENT_SPEED
+        elif key == arcade.key.RIGHT:
+            self.player_sprite.change_x = MOVEMENT_SPEED
+
+    def on_key_release(self, key, modifiers):
+        """
+        Called when the user releases a key.
+        """
+        if key == arcade.key.UP or key == arcade.key.DOWN:
+            self.player_sprite.change_y = 0
+        elif key == arcade.key.LEFT or key == arcade.key.RIGHT:
+            self.player_sprite.change_x = 0
+
+    def on_update(self, delta_time):
+        """ Movement and game logic """
+
+
+        ##This is needed if using the keyboard.
+        self.player_list.update()
+        # Call update on all sprites (The sprites don't do much in this
+        # example though.)
+        self.coin_list.update()
+
+        # Generate a list of all sprites that collided with the player.
+        coins_hit_list = arcade.check_for_collision_with_list(self.player_sprite,
+                                                              self.coin_list)
+
+        # Loop through each colliding sprite, remove it, and add to the score.
+        for coin in coins_hit_list:
+            coin.remove_from_sprite_lists()
+            self.score += 1
+
+
+def main():
+    """ Main method """
+    # Create a window class. This is what actually shows up on screen
+
+    window = arcade.Window(SCREEN_WIDTH, SCREEN_HEIGHT, WINDOW_TITLE)
+
+    # Create and setup the GameView
+
+    game = GameView()
+
+    game.setup()
+
+    # Show GameView on screen
+
+    window.show_view(game)
+
+    # Start the arcade game loop
+
+    arcade.run()
+
+
+if __name__ == "__main__":
+    main()
