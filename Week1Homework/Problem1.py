@@ -1,12 +1,12 @@
+# Type your answer in as comments
+#
+#
+#
+# 1.	Class. Read the syllabus and let me know if you have any questions or if it is clear to you.
+#                                  (5 points)
+#
+#
+#
+# 2.	Class: Log in to CodeGrade and set up a GitHub account (lab 1)
+#                                                                                                                                (5 points)
 
-def main():
-    type1 = "4"
-    ## Add a print statement here with the type of data in type1
-    type2 = input("Enter an integer: ")
-    ## Add a print statement here with the type of data in type2
-    type3 = int(type1)
-    ## Add a print statement here with the type of data in type3
-    type4 = float(input("Enter a floating point number: "))
-    ## Add a print statement here with the type of data in type4
-    type5 = 5 < 6
-    ## Add a print statement here with the type of data in type5
