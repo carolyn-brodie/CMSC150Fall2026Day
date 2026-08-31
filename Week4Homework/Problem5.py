@@ -16,7 +16,7 @@
 # Write the function under here
 
 
-def test():
+def main():
     pass
     #Test first function
     #print(is_even(5))
@@ -25,6 +25,6 @@ def test():
     #print(find_evens([1, 2, 3, 4]))
 
 if __name__ == '__main__':
-    test()
+    main()
 
 

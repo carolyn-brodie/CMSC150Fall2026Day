@@ -14,13 +14,13 @@
 # Write your function here
 
 
-def test():
+def main():
     pass
     #print(check_length("this is a very longggggg!"))
     #print(check_length("this is short"))
 
 
 if __name__ == '__main__':
-    test()
+    main()
 
 

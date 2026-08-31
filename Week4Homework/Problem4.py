@@ -8,12 +8,12 @@
 
 # put your function here
 
-def test():
+def main():
     pass
     # print(find_num_divisible(7,3))
 
 if __name__ == '__main__':
-    test()
+    main()
 
 
 

@@ -9,12 +9,12 @@
 # Write your function here
 
 
-def tester():
+def main():
     pass
     ## remove the pass and uncomment lines below
     # print(is_Negative(-5))
     # print(is_Negative(6))
 
 if __name__ == '__main__':
-    tester()
+    main()
 

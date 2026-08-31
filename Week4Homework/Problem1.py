@@ -13,7 +13,7 @@
 #     celsius = (______ - 32) * (5/9)
 #     return _______
 
-def tester():
+def main():
     pass
     #Comment out the pass and uncomment the three lines below
     # print(convert_To_Celsius(32))
@@ -23,4 +23,4 @@ def tester():
 
 
 if __name__ == '__main__':
-    tester()
+    main()
