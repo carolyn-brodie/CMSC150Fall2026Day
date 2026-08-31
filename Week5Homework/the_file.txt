@@ -1,0 +1,2 @@
+this is the test file
+the program should count all the times the appears

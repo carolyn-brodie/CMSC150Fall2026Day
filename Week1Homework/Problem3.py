@@ -11,14 +11,18 @@
 # 	Some of these will generate errors – comment them out
 #       and state why an error occurred.
 #                                                                                             (10 points)
+def main():
+    print(3 + 5 + 2, "Expected result is ___")
+    print(4 + 10 * 2, "Expected result is ___")
+    print((4 + 10) * 2, "Expected result is ___")
+    print(3 * 2 ** 3, "Expected result is ___")
+    print((3 * 2) ** 3, "Expected result is ___")
+    print(5 / 2, "Expected result is ___")
+    print(5 // 2, "Expected result is ___")
+    print((1 / (3 // 2)), "Expected result is ___")
+    print(1 / 3 // 2,  "Expected result is ___")
 
-print(3 + 5 + 2, "Expected result is ___")
-print(4 + 10 * 2, "Expected result is ___")
-print((4 + 10) * 2, "Expected result is ___")
-print(3 * 2 ** 3), "Expected result is ___)"
-print((3 * 2) ** 3, "Expected result is ___")
-print(5 / 2, "Expected result is ___")
-print(5 // 2, "Expected result is ___")
-print(2 / 0, "Expected result is ___")
-print((1 / (3 // 2)), "Expected result is ___")
-print(1 / 3 // 2,  "Expected result is ___")
+
+
+if __name__ == "__main__":
+    main()
