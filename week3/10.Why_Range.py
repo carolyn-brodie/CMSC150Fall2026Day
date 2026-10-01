@@ -42,12 +42,12 @@
 ## Build lists
 print(list(range(1, 100, 2)) + list(range(97, 0, -2)))
 
-my_list = []
-for number in range(1,100,2):
-    my_list.append(number)
-for number in range(97,0, -2):
-    my_list.append(number)
-print(my_list)
+# my_list = []
+# for number in range(1,100,2):
+#     my_list.append(number)
+# for number in range(97,0, -2):
+#     my_list.append(number)
+# print(my_list)
 
 
 # print(list(range(3,8,2)))

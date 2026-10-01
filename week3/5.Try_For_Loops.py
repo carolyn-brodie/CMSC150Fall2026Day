@@ -11,17 +11,21 @@ list2 = []
 #
 # print("loop finished")
 
-list1 = [10, -20, 30, 40, -1, 2]
-positives = 0
-negatives = 0
-for number in list1:
-    if number >= 0:
-        # positives += number
-        positives += 1
-    else:
-        # negatives = negatives + number
-        negatives += 1
+# total = 0
+# for element in list1:
+#     total += element
 
-print(positives)
-print(negatives)
-#print("The loop is done")
+# list1 = [10, -20, 30, 40, -1, 2]
+# positives = 0
+# negatives = 0
+# for number in list1:
+#     if number >= 0:
+#         # positives += number
+#         positives += 1
+#     else:
+#         # negatives = negatives + number
+#         negatives += 1
+#
+# print(positives)
+# print(negatives)
+# #print("The loop is done")

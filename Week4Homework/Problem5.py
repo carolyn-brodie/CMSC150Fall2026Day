@@ -13,7 +13,7 @@
 #
 # Test both functions.
 
-# Write the function under here
+# Write the functions under here
 
 
 def main():
