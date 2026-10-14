@@ -8,16 +8,16 @@
 
 ## readlines() returns the entire file but as a list
 
-file = open("./myData/firstFile.txt", "r")
-fileList = file.readlines()
-print(fileList)
-file.close()
-
-##get a list of strings without the new line character
 # file = open("./myData/firstFile.txt", "r")
-# fileList2 = (file.read()).split("\n")
-# print (fileList2)
+# fileList = file.readlines()
+# print(fileList)
 # file.close()
+
+#get a list of strings without the new line character
+file = open("test.txt", "r")
+fileList2 = (file.read()).split("\n")
+print (fileList2)
+file.close()
 
 
 ##Suppose you really only want to get to one line at a time
