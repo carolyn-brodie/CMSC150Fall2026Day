@@ -4,12 +4,12 @@ def squareIt(number):
 list_of_numbers = [1, 4, 5, 6, 10]
 
 squared_list = []
-for number in list_of_numbers:
-    squared_list.append(number ** 2)
+# for number in list_of_numbers:
+#     squared_list.append(number ** 2)
+#
+# print(squared_list)
 
-print(squared_list)
-
-squared_list_lc = [squareIt(number) for number in list_of_numbers]
+squared_list_lc = [number ** 2 for number in list_of_numbers]
 print(squared_list_lc)
 
 def isGreater20(number):
@@ -40,16 +40,16 @@ def isGreater20(number):
 # print("total is ", total)
 
 
-def find_capitalized_indexes(word):
-    capitalized_indexes = []
-    for i in range(len(word)):
-        if word[i].isupper():
-            capitalized_indexes.append(i)
-    return capitalized_indexes
-
-word = "uPPerCase"
-
-print([(index, char) for index, char in enumerate(word)])
+# def find_capitalized_indexes(word):
+#     capitalized_indexes = []
+#     for i in range(len(word)):
+#         if word[i].isupper():
+#             capitalized_indexes.append(i)
+#     return capitalized_indexes
+#
+# word = "uPPerCase"
+#
+# print([(index, char) for index, char in enumerate(word)])
 # capital_indices = [index for index, char in enumerate(word) if char.isupper()]
 # print(capital_indices)
 
