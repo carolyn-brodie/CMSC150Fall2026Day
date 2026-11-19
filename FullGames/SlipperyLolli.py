@@ -7,7 +7,14 @@ MOVEMENT_SPEED = 5
 
 
 class Lolli (arcade.Sprite):
-    def update(self):
+    def __init__(self, filename, scale):
+        super().__init__(filename, scale=scale)
+
+        self.change_x = 0
+
+        self.change_y = 0
+
+    def update(self, delta_time: float = 1 / 60):
 
         ## bounce off sides
         if self.left <= 0 or self.right >= SCREEN_WIDTH:
@@ -17,7 +24,7 @@ class Lolli (arcade.Sprite):
             self.change_y *= -1
 
         self.center_x += self.change_x
-        super(Lolli, self).update()
+        super().update()
 
 class InstructionView(arcade.View):
     def on_show_view(self):
@@ -49,9 +56,6 @@ class Game(arcade.View):    ## Change arcade.Window to arcade.View
         self.lolli = None
         self.cake = None
         self.frame_count = 0
-        self.all_sprites_list = []
-        self.lolli_list = []
-        self.cake_list = []
         self.score = 0
         self.score_text = None
 
@@ -61,7 +65,7 @@ class Game(arcade.View):    ## Change arcade.Window to arcade.View
         self.window.set_mouse_visible(True)
 
         # Set the background color
-        arcade.set_background_color(arcade.color.BLUE)
+        arcade.set_background_color(arcade.color.BLACK)
 
     def setup(self):
 
@@ -95,11 +99,18 @@ class Game(arcade.View):    ## Change arcade.Window to arcade.View
     def on_draw(self):
         """Render the screen. """
 
-        # arcade.start_render()
         self.clear()
         # Draw the background texture
-        # arcade.draw_texture_rectangle(SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2,
-        #                               SCREEN_WIDTH, SCREEN_HEIGHT, self.background)
+        scale = 1
+
+        ## arcade.XYWH(x, y, width, height)
+        arcade.draw_texture_rect(
+
+            self.background,
+
+            arcade.XYWH(SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2, SCREEN_WIDTH, SCREEN_HEIGHT).scale(scale)
+
+        )
 
         self.draw_game()
 
@@ -110,8 +121,8 @@ class Game(arcade.View):    ## Change arcade.Window to arcade.View
 
 
     def draw_game(self):
-        self.lolli.draw()
-        self.cake.draw()
+        self.lolli_list.draw()
+        self.cake_list.draw()
 
         # Put the text on the screen.
         output = f"Score: {self.score}"
@@ -121,7 +132,7 @@ class Game(arcade.View):    ## Change arcade.Window to arcade.View
 
 
 
-    def update(self, delta_time):
+    def on_update(self, delta_time):
         """All the logic to move, and the game logic goes here. """
 
         self.frame_count += 1
@@ -135,9 +146,7 @@ class Game(arcade.View):    ## Change arcade.Window to arcade.View
         for lolli in hit_list:
             self.lolli.center_x = random.randrange(SCREEN_WIDTH)
             self.lolli.center_y = random.randrange(SCREEN_HEIGHT)
-            self.score += 1
-            if self.score >= 10:
-                self.draw_game_over()
+
 
 
 

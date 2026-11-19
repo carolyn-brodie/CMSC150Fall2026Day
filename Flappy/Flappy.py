@@ -7,7 +7,7 @@ SCREEN_HEIGHT = 640
 pipeGapList = []
 
 
-class Bird (arcade.Sprite):
+class Bird(arcade.Sprite):
 
     def __init__(self, image, scale):
         super().__init__(image, scale)
@@ -17,19 +17,18 @@ class Bird (arcade.Sprite):
         self.velo = 0
         self.is_jumping = False
 
-
-
-    def update(self, symbol = None):
-        # Gravity and Jump
-        self.velo += -0.5
+    def update(self, delta_time=1/60):
+        # Gravity
+        self.velo -= 0.5
         self.center_y += self.velo
+
         if self.velo < -7:
             self.velo = -7
-        if symbol == arcade.key.SPACE and self.center_y > 0:
-            self.is_jumping = True
-            self.velo = 0
-            self.velo += 8.5
 
+    def jump(self):
+        if self.center_y > 0:
+            self.is_jumping = True
+            self.velo = 8.5
 
 class Pipe(arcade.Sprite):
 
@@ -47,13 +46,10 @@ class Pipe(arcade.Sprite):
             self.top = pipeGapList[-1] - 75
             pipeGapList.pop(0)
 
-
-
-    def update(self):
+    def update(self, delta_time=1 / 60):
         self.center_x -= 1
         if self.center_x < -50:
             self.remove_from_sprite_lists()
-        super(Pipe, self).update()
 
 
 
@@ -67,8 +63,13 @@ class StartingScreen(arcade.View):
 
     def on_draw(self):
         self.clear()
-        arcade.start_render()
-        arcade.draw_lrwh_rectangle_textured(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, self.background)
+
+        arcade.draw_texture_rect(
+            self.background,
+            arcade.LBWH(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)
+        )
+        #arcade.draw_rect_filled(arcade.rect.XYWH(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT), )
+        #arcade.draw_lrwh_rectangle_textured(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, self.background)
         arcade.draw_text("Press Spacebar ", SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2 - 150,
                          arcade.color.WHITE, font_size=30, anchor_x="center")
         arcade.draw_text("to jump ", SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2 - 200,
@@ -109,10 +110,11 @@ class Game(arcade.View):
         self.pipeSpriteList = arcade.SpriteList()
         self.all_sprites_list = arcade.SpriteList()
 
-    def on_key_press(self, symbol: int, modifiers: int):
-        """Called whenever a key is pressed. """
+
+
+    def on_key_press(self, symbol, modifiers):
         if symbol == arcade.key.SPACE:
-            self.bird.update(symbol)
+            self.bird.jump()
 
 
     def setup(self):
@@ -128,9 +130,11 @@ class Game(arcade.View):
 
 
 
+
     def on_draw(self):
         """Render the screen. """
-        arcade.start_render()
+        # arcade.start_render()
+        self.clear()
         self.draw_game()
 
 
@@ -138,22 +142,25 @@ class Game(arcade.View):
     def draw_game(self):
 
         # Draw the background texture
-        arcade.draw_texture_rectangle(SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2,
-                                      SCREEN_WIDTH, SCREEN_HEIGHT, self.background)
+        arcade.draw_texture_rect(
+            self.background,
+            arcade.XYWH(SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2,
+                        SCREEN_WIDTH, SCREEN_HEIGHT)
+        )
 
 
         self.all_sprites_list.draw()
 
 
-    def update(self, delta_time):
+    def on_update(self, delta_time):
         """All the logic to move, and the game logic goes here. """
 
         self.frame_count += 1
 
-        self.all_sprites_list.update()
+        self.all_sprites_list.update(delta_time)
 
 
-        print(self.all_sprites_list[-3].center_x)
+        # print(self.all_sprites_list[-3].center_x)
         # print(self.pipeTop.center_x)
         # print(self.pipeTop.center_x - SCREEN_WIDTH//1.5)
 
