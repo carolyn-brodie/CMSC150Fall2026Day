@@ -13,7 +13,6 @@ class Lolli (arcade.Sprite):
 
     def update(self, delta_time: float = 1 / 60):
 
-        # Move the coin
 
         self.center_x += self.change_x
 
