@@ -37,7 +37,7 @@ class Pipe(arcade.Sprite):
         self.center_x = SCREEN_WIDTH+100
 
 
-        if image == "top_pipe.png":
+        if image == "top_Pipe.png":
             randNumPipe = random.randint(SCREEN_HEIGHT // 2 - 150, SCREEN_HEIGHT // 2 + 150)
             pipeGapList.append(randNumPipe)
             self.bottom = randNumPipe + 75
@@ -122,8 +122,8 @@ class Game(arcade.View):
         self.background = arcade.load_texture("BackGround.png")
         self.all_sprites_list = arcade.SpriteList()
         self.bird = Bird("bird2.0.png", 0.1)
-        self.pipeTop = Pipe("top_pipe.png", 1.1)
-        self.pipeBot = Pipe("bottom_pipe.png", 1.1)
+        self.pipeTop = Pipe("top_Pipe.png", 1.1)
+        self.pipeBot = Pipe("bottom_Pipe.png", 1.1)
         self.all_sprites_list.append(self.bird)
         self.all_sprites_list.append(self.pipeTop)
         self.all_sprites_list.append(self.pipeBot)
@@ -169,8 +169,8 @@ class Game(arcade.View):
             print(self.count)
 
         if self.pipeTop.center_x == SCREEN_WIDTH//1.5:
-            self.pipeTop = Pipe("top_pipe.png", 1.1)
-            self.pipeBot = Pipe("bottom_pipe.png", 1.1)
+            self.pipeTop = Pipe("top_Pipe.png", 1.1)
+            self.pipeBot = Pipe("bottom_Pipe.png", 1.1)
             self.all_sprites_list.append(self.pipeTop)
             self.all_sprites_list.append(self.pipeBot)
 

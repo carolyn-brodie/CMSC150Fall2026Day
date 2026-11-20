@@ -1,62 +1,62 @@
 """
-Show how to have enemies shoot bullets aimed at the player.
+Show how to have enemies shoot bullets at random intervals.
 
 If Python and Arcade are installed, this example can be run from the command line with:
-python -m arcade.examples.sprite_bullets_enemy_aims
+python -m arcade.examples.sprite_bullets_random
 """
-
 import arcade
-import math
-import os
+import random
 
-SCREEN_WIDTH = 800
-SCREEN_HEIGHT = 600
-SCREEN_TITLE = "Sprites and Bullets Enemy Aims Example"
-BULLET_SPEED = 4
+WINDOW_WIDTH = 1280
+WINDOW_HEIGHT = 720
+WINDOW_TITLE = "Sprites and Random Bullets Example"
 
 
-class MyGame(arcade.Window):
+class GameView(arcade.View):
     """ Main application class """
 
-    def __init__(self, width, height, title):
-        super().__init__(width, height, title)
+    def __init__(self):
+        super().__init__()
 
-        # Set the working directory (where we expect to find files) to the same
-        # directory this .py file is in. You can leave this out of your own
-        # code, but it is needed to easily run the examples using "python -m"
-        # as mentioned at the top of this program.
-        file_path = os.path.dirname(os.path.abspath(__file__))
-        os.chdir(file_path)
-
-        arcade.set_background_color(arcade.color.BLACK)
+        self.background_color = arcade.color.BLACK
 
         self.frame_count = 0
-
+        self.player_list = None
         self.enemy_list = None
         self.bullet_list = None
-        self.player_list = None
+
         self.player = None
 
     def setup(self):
+        """ Setup the variables for the game. """
+        self.player_list = arcade.SpriteList()
         self.enemy_list = arcade.SpriteList()
         self.bullet_list = arcade.SpriteList()
-        self.player_list = arcade.SpriteList()
 
         # Add player ship
-        self.player = arcade.Sprite(":resources:images/space_shooter/playerShip1_orange.png", 0.5)
+        self.player = arcade.Sprite(
+            ":resources:images/space_shooter/playerShip1_orange.png",
+            scale=0.5,
+        )
         self.player_list.append(self.player)
 
         # Add top-left enemy ship
-        enemy = arcade.Sprite(":resources:images/space_shooter/playerShip1_green.png", 0.5)
+        enemy = arcade.Sprite(
+            ":resources:images/space_shooter/playerShip1_green.png",
+            scale=0.5,
+        )
         enemy.center_x = 120
-        enemy.center_y = SCREEN_HEIGHT - enemy.height
+        enemy.center_y = WINDOW_HEIGHT - enemy.height
         enemy.angle = 180
         self.enemy_list.append(enemy)
 
         # Add top-right enemy ship
-        enemy = arcade.Sprite(":resources:images/space_shooter/playerShip1_green.png", 0.5)
-        enemy.center_x = SCREEN_WIDTH - 120
-        enemy.center_y = SCREEN_HEIGHT - enemy.height
+        enemy = arcade.Sprite(
+            ":resources:images/space_shooter/playerShip1_green.png",
+            scale=0.5,
+        )
+        enemy.center_x = WINDOW_WIDTH - 120
+        enemy.center_y = WINDOW_HEIGHT - enemy.height
         enemy.angle = 180
         self.enemy_list.append(enemy)
 
@@ -72,48 +72,21 @@ class MyGame(arcade.Window):
     def on_update(self, delta_time):
         """All the logic to move, and the game logic goes here. """
 
-        self.frame_count += 1
-
         # Loop through each enemy that we have
         for enemy in self.enemy_list:
 
-            # First, calculate the angle to the player. We could do this
-            # only when the bullet fires, but in this case we will rotate
-            # the enemy to face the player each frame, so we'll do this
-            # each frame.
+            # Have a random 1 in 200 change of shooting each 1/60th of a second
+            odds = 200
 
-            # Position the start at the enemy's current location
-            start_x = enemy.center_x
-            start_y = enemy.center_y
+            # Adjust odds based on delta-time
+            adj_odds = int(odds * (1 / 60) / delta_time)
 
-            # Get the destination location for the bullet
-            dest_x = self.player.center_x
-            dest_y = self.player.center_y
-
-            # Do math to calculate how to get the bullet to the destination.
-            # Calculation the angle in radians between the start points
-            # and end points. This is the angle the bullet will travel.
-            x_diff = dest_x - start_x
-            y_diff = dest_y - start_y
-            angle = math.atan2(y_diff, x_diff)
-
-            # Set the enemy to face the player.
-            enemy.angle = math.degrees(angle) - 90
-
-            # Shoot every 60 frames change of shooting each frame
-            if self.frame_count % 60 == 0:
+            if random.randrange(adj_odds) == 0:
                 bullet = arcade.Sprite(":resources:images/space_shooter/laserBlue01.png")
-                bullet.center_x = start_x
-                bullet.center_y = start_y
-
-                # Angle the bullet sprite
-                bullet.angle = math.degrees(angle)
-
-                # Taking into account the angle, calculate our change_x
-                # and change_y. Velocity is how fast the bullet travels.
-                bullet.change_x = math.cos(angle) * BULLET_SPEED
-                bullet.change_y = math.sin(angle) * BULLET_SPEED
-
+                bullet.center_x = enemy.center_x
+                bullet.angle = 90
+                bullet.top = enemy.bottom
+                bullet.change_y = -2
                 self.bullet_list.append(bullet)
 
         # Get rid of the bullet when it flies off-screen
@@ -124,15 +97,24 @@ class MyGame(arcade.Window):
         self.bullet_list.update()
 
     def on_mouse_motion(self, x, y, delta_x, delta_y):
-        """Called whenever the mouse moves. """
+        """ Called whenever the mouse moves. """
         self.player.center_x = x
-        self.player.center_y = y
+        self.player.center_y = 20
 
 
 def main():
     """ Main function """
-    window = MyGame(SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_TITLE)
-    window.setup()
+    # Create a window class. This is what actually shows up on screen
+    window = arcade.Window(WINDOW_WIDTH, WINDOW_HEIGHT, WINDOW_TITLE)
+
+    # Create and setup the GameView
+    game = GameView()
+    game.setup()
+
+    # Show GameView on screen
+    window.show_view(game)
+
+    # Start the arcade game loop
     arcade.run()
 
 
